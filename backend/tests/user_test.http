@@ -1,0 +1,8 @@
+### register 
+POST http://localhost:8888/user/register
+Content-Type: application/json
+{
+    "name":"Pojok Code",
+    "username":"pojokcode",
+    "password":"P@ssw0rd"
+}

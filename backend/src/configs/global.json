@@ -1,0 +1,15 @@
+{
+    "datasource":{
+        "MyMariaDB": {
+			"class": "org.mariadb.jdbc.Driver",
+			"connectionString": "jdbc:mariadb://127.0.0.1:3306/fullstackcfml",
+			"username": "root",
+			"password": ""
+        }
+    },
+    "baseURL": "http://localhost:8888",
+    "acessTokenKey": "myAccessTokenKey",
+    "refreshTokenKey": "myRefreshTokenKey",
+    "expiedMinute": 15,
+    "refreshExpiredMinute": 360
+}

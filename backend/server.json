@@ -1,0 +1,21 @@
+{
+    "name":"rest-be",
+    "startTimeout":"3600",
+    "app":{
+        "cfengine":"lucee"
+    },
+    "web":{
+        "host":"localhost",
+        "webroot":"src",
+        "http":{
+            "port":8888
+        },
+        "rewrites":{
+            "enable":"true",
+            "config":"customRewrites.xml"
+        }
+    },
+    "JVM":{
+        "javaHome":"D:\\tools\\jdk-21.0.1"
+    }
+}
