@@ -57,3 +57,9 @@ component {
         }
     }
 }
+
+// cara acess
+// var jwt = new core.helpers.Jwt();
+// var token = jwt.encode({username: content.username});
+// registeredUser.accessToken = token.accessToken;
+// registeredUser.refreshToken = token.refreshToken;

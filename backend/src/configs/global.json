@@ -11,5 +11,14 @@
     "acessTokenKey": "myAccessTokenKey",
     "refreshTokenKey": "myRefreshTokenKey",
     "expiedMinute": 15,
-    "refreshExpiredMinute": 360
+    "refreshExpiredMinute": 360,
+    "emailFrom": "info@mail.com",
+    "gmail": {
+        "host": "smtp.gmail.com",
+        "port": 465,
+        "username": "asep.010801503125082@gmail.com",
+        "password": "unbo epxq cjpf osoz",
+        "usessl": true,
+        "usetls": false 
+    }
 }

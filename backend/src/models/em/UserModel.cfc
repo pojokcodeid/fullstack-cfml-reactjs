@@ -36,18 +36,18 @@ component{
             // insert user
             var qInsert = queryExecute(
                 "INSERT INTO user(
-                    username,
+                    email,
                     password,
                     personal_id,
                     uuid
                 )VALUES(
-                    :username,
+                    :email,
                     :password,
                     :personal_id,
                     :uuid
                 )",
                 {
-                    username = {value=content.username, sqltype="CF_SQL_VARCHAR"},
+                    email = {value=content.email, sqltype="CF_SQL_VARCHAR"},
                     password = {value=content.password, sqltype="CF_SQL_VARCHAR"},
                     personal_id = {value=insertPersonal.generatedKey, sqltype="CF_SQL_INTEGER"},
                     uuid = {value=uuid, sqltype="CF_SQL_VARCHAR"}
@@ -62,9 +62,35 @@ component{
             name = content.name,
             phone = content.phone,
             address = content.address,
-            username = content.username,
+            email = content.email,
             password = "xxxxxxxxxxxxxxxxxxxx",
             uuid=uuid
         };
+    }
+
+    public any function activate(uuid){
+        var qUpdate = queryExecute(
+            "UPDATE user SET status=1 WHERE uuid=:uuid",
+            {
+                uuid = {value=uuid, sqltype="CF_SQL_VARCHAR"}
+            },
+            {
+                result: "updateUser" // penting untuk dapatkan generatedKey
+            }
+        );
+        return true;
+    }
+
+    public boolean function activateStatus(uuid){
+        var data = queryExecute(
+            "SELECT * FROM user WHERE uuid=:uuid",
+            {
+                uuid = {value=uuid, sqltype="CF_SQL_VARCHAR"}
+            }
+        );
+        if(data.recordCount > 0 && data.status == 0){
+            return true;
+        }
+        return false;
     }
 }

@@ -3,7 +3,7 @@ component extends="core.BaseController" {
     variables.UserModel = model("em.UserModel");
     variables.rules = {
         name  : "required",
-        username: "required",
+        email: "required|is_email",
         password: "required|strong_password"
     }
 
@@ -26,11 +26,19 @@ component extends="core.BaseController" {
     
             var Bcript = new core.helpers.Password();
             content.password = Bcript.bcryptHashGet(content.password);
-            var jwt = new core.helpers.Jwt();
-            var token = jwt.encode({username: content.username});
             var registeredUser = UserModel.register(content);
-            registeredUser.accessToken = token.accessToken;
-            registeredUser.refreshToken = token.refreshToken;
+            registeredUser.activate = application.baseURL&"/user/activate/"&registeredUser.uuid;
+            var mail = new core.helpers.Mail(
+                registeredUser.email,
+                application.emailFrom,
+                "Email Activation",
+                "html"
+            );
+            mail.send(
+                '<p>Hi #registeredUser.name#</p>
+                <p>Click the link below to activate your account</p>
+                <a href="#registeredUser.activate#">Activate</a>'
+            );
             return {
                 success = true,
                 code = 201,
@@ -44,6 +52,21 @@ component extends="core.BaseController" {
                 message = e.message,
                 data = {}
             }           
+        }
+    }
+
+    public any function activate(uuid=""){
+        try{
+            if(!UserModel.activateStatus(uuid)){
+                view("activation/index", { message:"Already Activated or Invalid UUID" });
+                return false;
+            }
+            var result = UserModel.activate(uuid);       
+            view("activation/index", { message:"Activation success" });
+            return true;
+        }catch (any e) {
+            view("activation/index", { message:e.message });
+            return false;          
         }
     }
     

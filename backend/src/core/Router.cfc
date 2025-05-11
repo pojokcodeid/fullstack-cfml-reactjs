@@ -5,6 +5,7 @@ component {
         app.setDefaultController("Default");
         app.setDefaultControllerMethod("index");
         app.post("/user/register", { controller: "em.UserController", method: "register"});
+        app.get("/user/activate/:uuid", { controller: "em.UserController", method: "activate"});
         return app.run();
     }
 }
