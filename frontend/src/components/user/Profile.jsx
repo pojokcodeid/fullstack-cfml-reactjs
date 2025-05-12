@@ -1,7 +1,17 @@
 import React, { useEffect } from "react";
 import { axiosInstance } from "../../auth/AxiosConfig.jsx";
 import { toast } from "react-toastify";
-import { Button, Card, Col, Form, Input, InputNumber, Row, Space } from "antd";
+import {
+    Breadcrumb,
+    Button,
+    Card,
+    Col,
+    Form,
+    Input,
+    InputNumber,
+    Row,
+    Space,
+} from "antd";
 import Navbar from "../Navbar.jsx";
 import secureLocalStorage from "react-secure-storage";
 import { useNavigate } from "react-router-dom";
@@ -58,6 +68,19 @@ const Profile = () => {
                         style={{ display: "flex" }}
                     >
                         <Navbar />
+                        <Breadcrumb
+                            items={[
+                                {
+                                    title: "Home",
+                                },
+                                {
+                                    title: "User",
+                                },
+                                {
+                                    title: "Profile",
+                                },
+                            ]}
+                        />
                         <Form
                             form={form}
                             name="basic"
