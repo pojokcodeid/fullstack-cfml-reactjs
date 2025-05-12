@@ -93,4 +93,78 @@ component{
         }
         return false;
     }
+
+    public struct function login(content={}){
+        var data = queryExecute(
+            "SELECT 
+                u.user_id,
+                u.personal_id, 
+                u.email, 
+                u.password,
+                p.name,
+                p.phone, 
+                p.address
+            FROM user u inner join personal p on u.personal_id=p.personal_id
+            WHERE u.email=:email and u.status=1",
+            {
+                email = {value=content.email, sqltype="CF_SQL_VARCHAR"}
+            }
+        );
+        if(data.recordCount){
+            return {
+                userId = data.user_id, 
+                personalId = data.personal_id, 
+                name = data.name,
+                phone = data.phone,
+                address = data.address,
+                email = data.email,
+                password = data.password
+            };
+        }
+        return {};
+    }
+
+    public struct function update(content={}){
+        transaction action="begin" {
+            var sqlPersonal="UPDATE PERSONAL SET ";
+            if(structKeyExists(content, "name")){
+                sqlPersonal &= "name=:name ";
+            }
+            if(structKeyExists(content, "phone")){
+                sqlPersonal &= ",phone=:phone ";
+            }
+            if(structKeyExists(content, "address")){
+                sqlPersonal &= ",address=:address ";
+            }
+            sqlPersonal &= " WHERE personal_id=:personal_id";
+            var qUpdate = queryExecute(
+                sqlPersonal,
+                {
+                    name = {value=content.name, sqltype="CF_SQL_VARCHAR"},
+                    phone = structKeyExists(content, "phone") ? {value=content.phone, sqltype="CF_SQL_VARCHAR"} : {value="", sqltype="CF_SQL_VARCHAR"},
+                    address = structKeyExists(content, "address") ? {value=content.address, sqltype="CF_SQL_VARCHAR"} : {value="", sqltype="CF_SQL_VARCHAR"},
+                    personal_id = {value=content.personal_id, sqltype="CF_SQL_INTEGER"}
+                }
+            );
+            if(structKeyExists(content, "password")){
+                var qUpdate = queryExecute(
+                    "UPDATE USER SET email=:email, password=:password WHERE user_id=:user_id",
+                    {
+                        email = {value=content.email, sqltype="CF_SQL_VARCHAR"},
+                        password ={value=content.password, sqltype="CF_SQL_VARCHAR"},
+                        user_id = {value=content.user_id, sqltype="CF_SQL_INTEGER"}
+                    }
+                );
+            }else{
+                var qUpdate = queryExecute(
+                    "UPDATE USER SET email=:email WHERE user_id=:user_id",
+                    {
+                        email = {value=content.email, sqltype="CF_SQL_VARCHAR"},
+                        user_id = {value=content.user_id, sqltype="CF_SQL_INTEGER"}
+                    }
+                );
+            }
+        }
+        return content;
+    }
 }

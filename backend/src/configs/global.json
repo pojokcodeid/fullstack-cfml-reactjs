@@ -10,7 +10,7 @@
     "baseURL": "http://localhost:8888",
     "acessTokenKey": "myAccessTokenKey",
     "refreshTokenKey": "myRefreshTokenKey",
-    "expiedMinute": 15,
+    "expiedMinute": 5,
     "refreshExpiredMinute": 360,
     "emailFrom": "info@mail.com",
     "gmail": {

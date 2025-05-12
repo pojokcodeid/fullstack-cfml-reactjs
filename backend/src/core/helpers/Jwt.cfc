@@ -32,12 +32,12 @@ component {
     public function decodeAccess(token){
         try{
             return {
-                status :jwt.decode(token, acessKey, 'HS256'),
+                data :jwt.decode(token, acessKey, 'HS256'),
                 message : 'success'
             };
         }catch (any e) {
             return {
-                status : false,
+                data : false,
                 message : e.message
             }
         }
@@ -46,12 +46,12 @@ component {
     public function decodeRefresh(token){
         try{
             return {
-                status :jwt.decode(token, refreshKey, 'HS256'),
+                data :jwt.decode(token, refreshKey, 'HS256'),
                 message : 'success'
             };
         }catch (any e) {
             return {
-                status : false,
+                data : false,
                 message : e.message
             }
         }

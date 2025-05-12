@@ -69,5 +69,146 @@ component extends="core.BaseController" {
             return false;          
         }
     }
+
+    public struct function login(content={}){
+        var loginRules = {
+            email: "required|is_email",
+            password: "required"
+        }
+        try{
+            var result = validate(content, loginRules);
+            if(not result.success){
+                return {
+                    success = false,
+                    code = 400,
+                    message = result.errors[1],
+                    data = {}
+                }
+            }
+            var user = UserModel.login(content);
+            var isValid = false;
+            if(structKeyExists(user, "password")){
+                var Bcript = new core.helpers.Password();
+                isValid = user.password = Bcript.bcryptHashVerify(content.password, user.password);
+            }else{
+                return {
+                    success = false,
+                    code = 401,
+                    message = "User not found",
+                    data = {}
+                }
+            }
+            if(not isValid){
+                return {
+                    success = false,
+                    code = 401,
+                    message = "Invalid Password",
+                    data = {}
+                }
+            }
+            user.password = "xxxxxxxxxxxxxxxxxx";
+            var Jwt = new core.helpers.Jwt();
+            var token = Jwt.encode(user);
+            return {
+                success = true,
+                code = 200,
+                message = "success",
+                data = user,
+                accessToken = token.accessToken,
+                refreshToken = token.refreshToken,
+                decode = Jwt.decodeAccess(token.accessToken)
+            }
+        }catch (any e) {
+            return {
+                success = false,
+                code = 422,
+                message = e.message,
+                data = {}
+            }           
+        }
+    }
+
+    public any function refreshToken(){
+        try{
+            var authenticate = new core.helpers.Header();
+            var auth = authenticate.authenticateRefresh();
+            if(not isStruct(auth.data) &&auth.data==false){
+                return {
+                    success = false,
+                    code = 401,
+                    message = auth.message,
+                    data = {}
+                }
+            }
+            var Jwt = new core.helpers.Jwt();
+            var token = Jwt.encode(auth.DATA.content);
+            return {
+                success = true,
+                code = 200,
+                message = "success",
+                data = auth.DATA.content,
+                accessToken = token.accessToken,
+                refreshToken = token.refreshToken
+            }
+        }catch (any e) {
+            return {
+                success = false,
+                code = 422,
+                message = e.message,
+                data = {}
+            }
+        }
+    }
+
+    public struct function update(content={}){
+        if(not structKeyExists(content, "password")){
+            variables.rules = {
+                name  : "required",
+                email: "required|is_email"
+            }
+        }
+        try{
+            var authenticate = new core.helpers.Header();
+            var auth = authenticate.authenticateAcess();
+            if(not isStruct(auth.DATA) && auth.DATA==false){
+                return {
+                    success = false,
+                    code = 401,
+                    message = auth.message,
+                    data = {}
+                }
+            }
+            var result = validate(content, rules);
+            if(not result.success){
+                return {
+                    success = false,
+                    code = 400,
+                    message = result.errors[1],
+                    data = {}
+                }
+            }
+            if(structKeyExists(content, "password")){
+                var Bcript = new core.helpers.Password();
+                content.password = Bcript.bcryptHashGet(content.password);
+            }
+            content.user_id = auth.DATA.content.USERID;
+            content.personal_id = auth.DATA.content.PERSONALID;
+            var updatedUser = UserModel.update(content);
+            updatedUser.password = "xxxxxxxxxxxxxxxxxx";
+            return {
+                success = true,
+                code = 200,
+                message = "success",
+                data = updatedUser
+            }
+        }catch (any e) {
+            return {
+                success = false,
+                code = 422,
+                message = e.message,
+                data = {}
+            }
+        }
+    }
     
 }
