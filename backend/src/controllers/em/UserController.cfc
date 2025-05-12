@@ -115,8 +115,7 @@ component extends="core.BaseController" {
                 message = "success",
                 data = user,
                 accessToken = token.accessToken,
-                refreshToken = token.refreshToken,
-                decode = Jwt.decodeAccess(token.accessToken)
+                refreshToken = token.refreshToken
             }
         }catch (any e) {
             return {

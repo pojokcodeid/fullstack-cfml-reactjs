@@ -19,6 +19,17 @@ component {
 	}
 
 	function onRequestStart(string targetPage) {
+        // Allow all origins (or specify the one you want)
+        header name="Access-Control-Allow-Origin" value="*";
+        header name="Access-Control-Allow-Methods" value="GET, POST, PUT, DELETE, OPTIONS";
+        header name="Access-Control-Allow-Headers" value="Content-Type, Authorization";
+        
+        // Handle preflight request
+        if (cgi.request_method == "OPTIONS") {
+            // Stop processing further
+            abort;
+        }
+        return true;
 	}
 
 	this.onError = function(exception, eventname){
