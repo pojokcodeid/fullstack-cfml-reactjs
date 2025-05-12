@@ -31,9 +31,9 @@ const refreshAuthLogic = async (failedRequest) => {
             headers: headersList,
         };
         const response = await axios.request(reqOptions);
-        secureLocalStorage.setItem("acessToken", response.data.acessToken);
-        secureLocalStorage.setItem("refreshToken", response.data.refreshToken);
-        secureLocalStorage.setItem("user", response.data.result);
+        secureLocalStorage.setItem("acessToken", response.data.ACCESSTOKEN);
+        secureLocalStorage.setItem("refreshToken", response.data.REFRESHTOKEN);
+        secureLocalStorage.setItem("user", response.data.DATA);
         console.log("Simpan token baru berhasil ...");
         failedRequest.headers["Authorization"] =
             "Bearer " + response.data.acessToken;

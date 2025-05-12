@@ -160,7 +160,7 @@ component extends="core.BaseController" {
     }
 
     public struct function update(content={}){
-        if(not structKeyExists(content, "password")){
+        if(not structKeyExists(content, "password") || content.password == ""){
             variables.rules = {
                 name  : "required",
                 email: "required|is_email"
@@ -186,7 +186,7 @@ component extends="core.BaseController" {
                     data = {}
                 }
             }
-            if(structKeyExists(content, "password")){
+            if(structKeyExists(content, "password") && len(trim(content.password)) > 0){
                 var Bcript = new core.helpers.Password();
                 content.password = Bcript.bcryptHashGet(content.password);
             }

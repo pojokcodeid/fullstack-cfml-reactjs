@@ -4,7 +4,7 @@ POST {{base_url}}/user/register
 Content-Type: application/json
 {
     "name":"Pojok Code",
-    "email":"aasseepp@gmail.com",
+    "email":"code@gmail.com",
     "password":"P@ssw0rd"
 }
 
@@ -12,8 +12,8 @@ Content-Type: application/json
 POST {{base_url}}/user/login
 Content-Type: application/json
 {
-    "email":"aasseepp@gmail.com",
-    "password":"P@ssw0rdx"
+    "email":"code@gmail.com",
+    "password":"P@ssw0rd"
 }
 
 {{
@@ -36,6 +36,8 @@ Authorization: Bearer {{$global.accessToken}}
 Content-Type: application/json
 {
     "name":"Pojok Code",
-    "email":"aasseepp@gmail.com",
+    "email":"code@gmail.com",
+    "phone":"",
+    "address":"",
     "password":"P@ssw0rd"
 }

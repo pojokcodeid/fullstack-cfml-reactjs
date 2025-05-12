@@ -37,7 +37,7 @@ const items = [
         style: { marginLeft: "auto" },
         children: [
             {
-                label: <a href="/edit/profile">Edit Profile</a>,
+                label: <a href="/profile">Edit Profile</a>,
                 key: "profile:1",
             },
             {
@@ -61,7 +61,6 @@ const Navbar = () => {
             selectedKeys={[current]}
             mode="horizontal"
             items={items}
-            style={{ width: "100%", maxWidth: 1200 }}
         />
     );
 };

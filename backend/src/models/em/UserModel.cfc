@@ -146,7 +146,7 @@ component{
                     personal_id = {value=content.personal_id, sqltype="CF_SQL_INTEGER"}
                 }
             );
-            if(structKeyExists(content, "password")){
+            if(structKeyExists(content, "password") && len(trim(content.password)) > 0){
                 var qUpdate = queryExecute(
                     "UPDATE USER SET email=:email, password=:password WHERE user_id=:user_id",
                     {

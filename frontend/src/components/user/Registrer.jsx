@@ -1,26 +1,36 @@
 import React from "react";
 import { Button, Card, Checkbox, Form, Input } from "antd";
-import { axiosInstance } from "../auth/AxiosConfig.jsx";
 import { toast } from "react-toastify";
+import { axiosNoAuth } from "../../auth/AxiosConfig.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Registrer = () => {
+    const navigate = useNavigate();
     const onFinish = async (values) => {
+        if (values.password !== values.confirmPassword) {
+            toast.error("Password and confirm password is not same", {
+                position: "top-center",
+            });
+            return;
+        }
+
         try {
-            const response = await axiosInstance.post("/user/register", {
+            const response = await axiosNoAuth.post("/user/register", {
                 name: values.name,
                 email: values.email,
                 password: values.password,
             });
-            toast.error(
+            toast.success(
                 "Register success! Please check your email: " +
                     response.data.DATA.EMAIL,
                 {
                     position: "top-center",
                 }
             );
-            window.location.href = "/";
+            // window.location.href = "/";
+            navigate("/");
         } catch (error) {
-            toast.success(error.response.data.MESSAGE, {
+            toast.error(error.response.data.MESSAGE, {
                 position: "top-center",
             });
         }
@@ -75,6 +85,19 @@ const Registrer = () => {
                                 {
                                     required: true,
                                     message: "Please input your password!",
+                                },
+                            ]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                        <Form.Item
+                            label="Confirm Password"
+                            name="confirmPassword"
+                            rules={[
+                                {
+                                    required: true,
+                                    message:
+                                        "Please input your confirm password!",
                                 },
                             ]}
                         >

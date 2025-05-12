@@ -2,9 +2,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 import Home from "../components/Home.jsx";
 import Login from "../components/Login.jsx";
-import Registrer from "../components/Registrer.jsx";
 import { ToastContainer } from "react-toastify";
 import Logout from "../components/Logout.jsx";
+import Registrer from "../components/user/Registrer.jsx";
+import Profile from "../components/user/Profile.jsx";
 
 const RouteNavigation = () => {
     const refreshToken = secureLocalStorage.getItem("refreshToken");
@@ -16,6 +17,7 @@ const RouteNavigation = () => {
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/logout" element={<Logout />} />
+                            <Route path="/profile" element={<Profile />} />
                         </Routes>
                     </BrowserRouter>
                 </>
