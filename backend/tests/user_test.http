@@ -31,7 +31,7 @@ Authorization: Bearer {{$global.refreshToken}}
 }}
 
 ### update user 
-POST {{base_url}}/user/update
+PUT {{base_url}}/user/update
 Authorization: Bearer {{$global.accessToken}}
 Content-Type: application/json
 {

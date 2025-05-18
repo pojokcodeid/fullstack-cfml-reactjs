@@ -165,6 +165,13 @@ component{
                 );
             }
         }
-        return content;
+        return {
+            userId = content.user_id, 
+            personalId = content.personal_id, 
+            name = content.name,
+            phone = content.phone,
+            address = content.address,
+            email = content.email
+        };
     }
 }

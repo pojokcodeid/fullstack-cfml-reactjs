@@ -8,7 +8,7 @@ component {
         app.get("/user/activate/:uuid", { controller: "em.UserController", method: "activate"});
         app.post("/user/login", { controller: "em.UserController", method: "login"});
         app.get("/user/refresh", { controller: "em.UserController", method: "refreshToken"});
-        app.post("/user/update", { controller: "em.UserController", method: "update"});
+        app.put("/user/update", { controller: "em.UserController", method: "update"});
         return app.run();
     }
 }

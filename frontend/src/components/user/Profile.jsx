@@ -39,14 +39,15 @@ const Profile = () => {
             return;
         }
         try {
-            const response = await axiosInstance.post("/user/update", {
+            const response = await axiosInstance.put("/user/update", {
                 name: values.name,
                 email: values.email,
-                password: values.password,
-                phone: values.phone,
-                address: values.address,
+                password: values.password || "",
+                phone: values.phone || "",
+                address: values.address || "",
             });
             if (response.data) {
+                secureLocalStorage.setItem("user", response.data.DATA);
                 toast.success("Update Success !", {
                     position: "top-center",
                 });

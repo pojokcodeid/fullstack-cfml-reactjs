@@ -3,10 +3,8 @@ import { Button, Card, Checkbox, Form, Input } from "antd";
 import { toast } from "react-toastify";
 import { axiosNoAuth } from "../auth/AxiosConfig.jsx";
 import secureLocalStorage from "react-secure-storage";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const navigate = useNavigate();
     const onFinish = async (values) => {
         try {
             const response = await axiosNoAuth.post("/user/login", {
@@ -26,7 +24,7 @@ const Login = () => {
                 toast.success("Login Berhasil!", {
                     position: "top-center",
                 });
-                navigate("/");
+                window.location.href = "/";
             }
         } catch (error) {
             toast.error(error.response.data.MESSAGE, {
